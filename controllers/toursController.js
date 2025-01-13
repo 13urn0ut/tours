@@ -12,6 +12,7 @@ exports.getAllTours = async (req, res) => {
 
     res.status(200).json({
       status: "success", // success, fail, error
+      results: tours.length,
       data: tours,
     });
   } catch (err) {
@@ -25,10 +26,11 @@ exports.getAllTours = async (req, res) => {
 exports.postTour = async (req, res) => {
   const newTour = req.body;
 
-  if (!newTour) return res.status(400).json({
-    status: "fail",
-    message: "Bad Request"
-  });
+  if (!newTour)
+    return res.status(400).json({
+      status: "fail",
+      message: "Bad Request",
+    });
 
   try {
     const tour = await postTour(newTour);
@@ -82,7 +84,7 @@ exports.updateTour = async (req, res) => {
         message: "invalid ID",
       });
 
-    const updatedTour = await updateTour(id, {  ...newData });
+    const updatedTour = await updateTour(id, { ...newData });
 
     res.status(200).json({
       status: "succes",
