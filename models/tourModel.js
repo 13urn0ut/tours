@@ -23,7 +23,7 @@ exports.postTour = async (tour) => {
   const columns = Object.keys(tour);
   const [newTour] = await sql`
     INSERT INTO tours ${sql(tour, columns)}
-    RETURNING tours.*
+    RETURNING tours.*;
     `;
 
   return newTour;
@@ -35,7 +35,7 @@ exports.updateTour = async (id, tour) => {
     UPDATE tours
     SET ${sql(tour, columns)}
     WHERE tours.id = ${id}
-    RETURNING tours.*
+    RETURNING tours.*;
     `;
 
   return updatedTour;
