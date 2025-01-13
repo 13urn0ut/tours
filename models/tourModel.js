@@ -44,7 +44,7 @@ exports.updateTour = async (id, tour) => {
 exports.deleteTour = async (id) => {
   const [deletedTour] = await sql`
     DELETE FROM tours
-    WHERE id = ${id}
+    WHERE tours.id = ${id}
     RETURNING tours.*;
     `;
 
