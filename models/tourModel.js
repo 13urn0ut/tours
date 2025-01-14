@@ -2,7 +2,7 @@ const { sql } = require("./../dbConnection");
 
 exports.getAllTours = async () => {
   const tourList = await sql`
-    SELECT tours.name as name, tours.price as price, categories.name as category, difficulties.level as difficulty
+    SELECT tours.name, tours.price, categories.category, difficulties.difficulty
     FROM tours
     JOIN difficulties
     ON tours.difficulty_id = difficulties.id
@@ -12,6 +12,18 @@ exports.getAllTours = async () => {
 
   return tourList;
 };
+
+exports.getTourByCategoryId = async (categoryId) => {
+  const tours = await sql`
+  SELECT tours.name, tours.price, categories.category, difficulties.difficulty
+    FROM tours
+    JOIN difficulties
+    ON tours.difficulty_id = difficulties.id
+    JOIN categories
+    ON tours.category_id = categories.id
+    WHERE tours.category_id = ${categoryId}
+  ` 
+}
 
 exports.getTourById = async (id) => {
   const [tour] = await sql`
