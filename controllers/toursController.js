@@ -4,6 +4,7 @@ const {
   postTour,
   deleteTour,
   updateTour,
+  getTourByCategoryId,
 } = require("../models/tourModel");
 
 exports.getAllTours = async (req, res) => {
@@ -62,6 +63,37 @@ exports.getTourById = async (req, res) => {
     res.status(200).json({
       status: "success",
       data: tour,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.getTourByCategoryId = async (req, res) => {
+  try {
+    const { categoryId } = req.params;
+
+    if (!categoryId || isNaN(categoryId))
+      return res.status(400).json({
+        status: "fail",
+        message: "Invalid or missing ID",
+      });
+
+    const tours = await getTourByCategoryId(categoryId);
+
+    if (tours.length < 1)
+      return res.status(404).json({
+        status: "fail",
+        message: "No tours found",
+      });
+
+    res.status(200).json({
+      status: "success",
+      results: tours.length,
+      data: tours,
     });
   } catch (err) {
     res.status(500).json({
