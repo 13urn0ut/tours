@@ -39,6 +39,20 @@ exports.countToursByCategory = async () => {
   return result;
 };
 
+exports.getToursByCatAndDiff = async (cat, diff) => {
+  const tours = sql`
+    SELECT tours.name, categories.category, difficulties.difficulty
+    FROM tours
+    JOIN categories
+    ON tours.category_id = categories.id
+    JOIN difficulties
+    ON tours.difficulty_id = difficulties.id
+    WHERE categories.category = ${cat} AND difficulties.difficulty = ${diff}
+  `;
+
+  return tours;
+};
+
 exports.getTourById = async (id) => {
   const [tour] = await sql`
     SELECT tours.*
