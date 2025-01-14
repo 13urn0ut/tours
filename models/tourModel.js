@@ -15,7 +15,7 @@ exports.getAllTours = async () => {
 
 exports.getTourByCategoryId = async (categoryId) => {
   const tours = await sql`
-  SELECT tours.name, tours.price, categories.category, difficulties.difficulty
+    SELECT tours.name, tours.price, categories.category, difficulties.difficulty
     FROM tours
     JOIN difficulties
     ON tours.difficulty_id = difficulties.id
