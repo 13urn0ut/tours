@@ -5,11 +5,13 @@ const {
   postTour,
   updateTour,
   deleteTour,
+  getTourByCategoryId,
 } = require("../controllers/toursController");
 
 const tourRouter = express.Router();
 
 tourRouter.route("/").get(getAllTours).post(postTour);
 tourRouter.route("/:id").get(getTourById).patch(updateTour).delete(deleteTour);
+tourRouter.route("/category/:categoryId").get(getTourByCategoryId)
 
 module.exports = tourRouter;

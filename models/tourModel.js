@@ -22,8 +22,10 @@ exports.getTourByCategoryId = async (categoryId) => {
     JOIN categories
     ON tours.category_id = categories.id
     WHERE tours.category_id = ${categoryId}
-  ` 
-}
+  `;
+
+  return tours;
+};
 
 exports.getTourById = async (id) => {
   const [tour] = await sql`
