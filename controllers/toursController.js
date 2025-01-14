@@ -84,7 +84,7 @@ exports.getTourByCategoryId = async (req, res) => {
 
     const tours = await getTourByCategoryId(categoryId);
 
-    if (tours?.length < 1)
+    if (!tours || tours?.length < 1)
       return res.status(404).json({
         status: "fail",
         message: "No tours found",
