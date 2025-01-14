@@ -27,6 +27,18 @@ exports.getTourByCategoryId = async (categoryId) => {
   return tours;
 };
 
+exports.countToursByCategory = async () => {
+  const result = await sql`
+    SELECT categories.category, COUNT(tours.id) AS total_counts
+    FROM categories
+    JOIN tours
+    ON categories.id = tours.category_id
+    GROUP BY categories.category;
+  `;
+
+  return result;
+};
+
 exports.getTourById = async (id) => {
   const [tour] = await sql`
     SELECT tours.*

@@ -5,6 +5,7 @@ const {
   deleteTour,
   updateTour,
   getTourByCategoryId,
+  countToursByCategory,
 } = require("../models/tourModel");
 
 exports.getAllTours = async (req, res) => {
@@ -94,6 +95,22 @@ exports.getTourByCategoryId = async (req, res) => {
       status: "success",
       results: tours.length,
       data: tours,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.countToursByCategory = async (req, res) => {
+  try {
+    const data = await countToursByCategory();
+
+    res.status(200).json({
+      status: "success",
+      data,
     });
   } catch (err) {
     res.status(500).json({
