@@ -127,6 +127,12 @@ exports.getToursByCatAndDiff = async (req, res) => {
 
     const tours = await getToursByCatAndDiff(category, difficulty);
 
+    if (!tours || tours?.length < 1)
+      return res.status(404).json({
+        status: "fail",
+        message: "No tours found",
+      });
+
     res.status(200).json({
       status: "success",
       data: tours,
