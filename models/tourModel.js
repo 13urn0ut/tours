@@ -63,6 +63,20 @@ exports.getTourById = async (id) => {
   return tour;
 };
 
+exports.filterTours = async (filter) => {
+  const tours = await sql`
+    SELECT tours.*, difficulties.difficulty, categories.category
+    FROM tours
+    JOIN difficulties ON tours.difficulty_id = difficulties.id
+    JOIN categories ON tours.category_id = categories.id
+    WHERE tours.duration <= ${filter.duration} 
+    AND difficulties.difficulty = ${filter.difficulty} 
+    AND tours.price <= ${filter.price};
+  `
+
+  return tours;
+}
+
 exports.postTour = async (tour) => {
   const columns = Object.keys(tour);
   const [newTour] = await sql`

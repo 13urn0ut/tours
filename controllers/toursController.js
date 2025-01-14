@@ -7,6 +7,7 @@ const {
   getTourByCategoryId,
   countToursByCategory,
   getToursByCatAndDiff,
+  filterTours,
 } = require("../models/tourModel");
 
 exports.getAllTours = async (req, res) => {
@@ -17,30 +18,6 @@ exports.getAllTours = async (req, res) => {
       status: "success", // success, fail, error
       results: tours.length,
       data: tours,
-    });
-  } catch (err) {
-    res.status(500).json({
-      status: "fail",
-      message: err.message,
-    });
-  }
-};
-
-exports.postTour = async (req, res) => {
-  const newTour = req.body;
-
-  if (!newTour)
-    return res.status(400).json({
-      status: "fail",
-      message: "Bad Request",
-    });
-
-  try {
-    const tour = await postTour(newTour);
-
-    res.status(201).json({
-      status: "success",
-      data: tour,
     });
   } catch (err) {
     res.status(500).json({
@@ -136,6 +113,50 @@ exports.getToursByCatAndDiff = async (req, res) => {
     res.status(200).json({
       status: "success",
       data: tours,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.getFilteredTours = async (req, res) => {
+  try {
+    const filter = req.query;
+    const tours = await filterTours(filter);
+
+    console.log(tours);
+
+    res.status(200).json({
+      status: "success",
+      results: tours.length,
+      data: tours,
+    });
+  } catch (err) {
+    res.status(500).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.postTour = async (req, res) => {
+  const newTour = req.body;
+
+  if (!newTour)
+    return res.status(400).json({
+      status: "fail",
+      message: "Bad Request",
+    });
+
+  try {
+    const tour = await postTour(newTour);
+
+    res.status(201).json({
+      status: "success",
+      data: tour,
     });
   } catch (err) {
     res.status(500).json({
